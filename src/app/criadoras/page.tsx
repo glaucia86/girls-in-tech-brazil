@@ -29,7 +29,7 @@ export default async function CriadorasPage() {
   return (
     <div className="page-shell section-gap space-y-8">
       <section className="space-y-4">
-        <p className="eyebrow text-[var(--color-ocean-700)]">Descoberta</p>
+        <p className="eyebrow text-[var(--color-brand-700)]">Descoberta</p>
         <h1 className="text-4xl font-black tracking-tight">Encontre criadoras por tema e formato</h1>
         <p className="max-w-3xl leading-7 text-[var(--color-text-muted)]">
           Use a busca, combine categorias e navegue por páginas sem perder o estado da URL.

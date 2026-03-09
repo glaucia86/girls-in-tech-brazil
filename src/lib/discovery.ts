@@ -75,6 +75,10 @@ function normalizeQuery(query: string | undefined) {
   return query?.trim() ?? ''
 }
 
+function isCategory(value: string): value is Category {
+  return CREATOR_CATEGORIES.includes(value as Category)
+}
+
 function normalizeCategories(raw: string | string[] | undefined): Category[] {
   const values = Array.isArray(raw) ? raw : raw ? [raw] : []
   const unique = new Set<Category>()
@@ -82,8 +86,8 @@ function normalizeCategories(raw: string | string[] | undefined): Category[] {
   values
     .flatMap((value) => value.split(','))
     .map((value) => value.trim())
-    .filter(Boolean)
-    .forEach((value) => unique.add(value as Category))
+    .filter(isCategory)
+    .forEach((value) => unique.add(value))
 
   return Array.from(unique)
 }

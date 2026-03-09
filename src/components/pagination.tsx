@@ -8,6 +8,35 @@ type PaginationProps = {
   buildHref: (page: number) => string
 }
 
+type PaginationControlProps = {
+  children: React.ReactNode
+  href: string
+  disabled: boolean
+}
+
+function PaginationControl({ children, href, disabled }: PaginationControlProps) {
+  const className = cn(
+    'inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold',
+    disabled
+      ? 'cursor-default opacity-45'
+      : 'bg-[var(--color-surface-muted)] text-[var(--color-text-base)]',
+  )
+
+  if (disabled) {
+    return (
+      <span aria-disabled="true" className={className}>
+        {children}
+      </span>
+    )
+  }
+
+  return (
+    <Link href={href} className={className}>
+      {children}
+    </Link>
+  )
+}
+
 export function Pagination({ pagination, buildHref }: PaginationProps) {
   if (pagination.totalPages <= 1) {
     return null
@@ -20,19 +49,13 @@ export function Pagination({ pagination, buildHref }: PaginationProps) {
       aria-label="Paginação de criadoras"
       className="flex flex-wrap items-center justify-between gap-4 rounded-[1.5rem] border border-[var(--color-border-soft)] bg-white px-4 py-4 shadow-[var(--shadow-soft)]"
     >
-      <Link
+      <PaginationControl
         href={buildHref(Math.max(pagination.page - 1, 1))}
-        aria-disabled={!pagination.hasPrevious}
-        className={cn(
-          'inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold',
-          pagination.hasPrevious
-            ? 'bg-[var(--color-surface-muted)] text-[var(--color-text-base)]'
-            : 'pointer-events-none opacity-45',
-        )}
+        disabled={!pagination.hasPrevious}
       >
         <ChevronLeft className="size-4" />
         Anterior
-      </Link>
+      </PaginationControl>
       <div className="flex flex-wrap justify-center gap-2">
         {pages.map((page) => (
           <Link
@@ -50,19 +73,13 @@ export function Pagination({ pagination, buildHref }: PaginationProps) {
           </Link>
         ))}
       </div>
-      <Link
+      <PaginationControl
         href={buildHref(Math.min(pagination.page + 1, pagination.totalPages))}
-        aria-disabled={!pagination.hasNext}
-        className={cn(
-          'inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold',
-          pagination.hasNext
-            ? 'bg-[var(--color-surface-muted)] text-[var(--color-text-base)]'
-            : 'pointer-events-none opacity-45',
-        )}
+        disabled={!pagination.hasNext}
       >
         Próxima
         <ChevronRight className="size-4" />
-      </Link>
+      </PaginationControl>
     </nav>
   )
 }

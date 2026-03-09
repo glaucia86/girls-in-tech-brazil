@@ -23,9 +23,15 @@ export function SearchBar({ initialValue }: SearchBarProps) {
   useEffect(() => {
     const timeout = window.setTimeout(() => {
       const params = new URLSearchParams(searchParams.toString())
+      const normalizedDeferredValue = deferredValue.trim()
+      const currentQuery = searchParams.get('q')?.trim() ?? ''
 
-      if (deferredValue.trim()) {
-        params.set('q', deferredValue.trim())
+      if (normalizedDeferredValue === currentQuery) {
+        return
+      }
+
+      if (normalizedDeferredValue) {
+        params.set('q', normalizedDeferredValue)
       } else {
         params.delete('q')
       }
@@ -33,11 +39,6 @@ export function SearchBar({ initialValue }: SearchBarProps) {
       params.delete('page')
       const queryString = params.toString()
       const nextHref = queryString ? `${pathname}?${queryString}` : pathname
-      const currentHref = searchParams.toString() ? `${pathname}?${searchParams.toString()}` : pathname
-
-      if (nextHref === currentHref) {
-        return
-      }
 
       startTransition(() => {
         router.replace(nextHref, { scroll: false })

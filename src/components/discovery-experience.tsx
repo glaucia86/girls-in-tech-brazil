@@ -1,14 +1,16 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
+import { CategoryFilter } from '@/components/category-filter'
+import { CreatorCard } from '@/components/creator-card'
+import { EmptyState } from '@/components/empty-state'
+import { Pagination } from '@/components/pagination'
+import { SearchBar } from '@/components/search-bar'
 import {
-  CategoryFilter,
-  CreatorCard,
-  EmptyState,
-  Pagination,
-  SearchBar,
-} from '@/components'
-import { buildDiscoveryView, getDiscoveryCategories } from '@/lib/discovery'
+  buildDiscoveryView,
+  DISCOVERY_PAGE_SIZE,
+  getDiscoveryCategories,
+} from '@/lib/discovery'
 import type { Creator } from '@/schemas/creator.schema'
 
 type DiscoveryExperienceProps = {
@@ -33,6 +35,10 @@ export function DiscoveryExperience({ creators }: DiscoveryExperienceProps) {
     }
 
     discovery.filters.selectedCategories.forEach((category) => params.append('categories', category))
+
+    if (discovery.filters.pagination.pageSize !== DISCOVERY_PAGE_SIZE) {
+      params.set('pageSize', String(discovery.filters.pagination.pageSize))
+    }
 
     if (page > 1) {
       params.set('page', String(page))

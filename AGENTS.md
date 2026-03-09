@@ -29,7 +29,7 @@ Default reading order for new tasks:
 1. Read this file first.
 2. **Creator data** → `src/schemas/creator.schema.ts`, `src/lib/creators.ts`, `src/data/creators/`, `scripts/validate-data.ts`
 3. **UI components** → `src/components/`, `src/styles/globals.css`, `src/app/layout.tsx`
-4. **Animations** → `src/lib/motion-variants.ts`, `src/lib/use-count-up.ts`, `src/components/scroll-progress.tsx`, `src/components/section-reveal.tsx`
+4. **Animations** → `src/lib/motion-variants.ts`, `src/hooks/use-count-up.ts`, `src/components/scroll-progress.tsx`, `src/components/section-reveal.tsx`
 5. **Contribution / CI** → `CONTRIBUTING.md`, `.github/PULL_REQUEST_TEMPLATE.md`, `.github/workflows/ci.yml`
 6. **Feature planning** → active spec under `specs/`
 7. Only go deeper when the task actually needs it.
@@ -73,6 +73,7 @@ src/
     creators.ts         # centralized dataset access
     discovery.ts
     motion-variants.ts  # shared Framer Motion variants
+  hooks/
     use-count-up.ts     # animated counter hook
   schemas/
     creator.schema.ts   # Zod schema — single validation source
