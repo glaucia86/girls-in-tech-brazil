@@ -72,7 +72,8 @@ const regionSchema = z.enum(BRAZILIAN_UFS)
 const linkKeySchema = z.enum(LINK_KEYS)
 
 const kebabCasePattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
-const titleCaseTagPattern = /^[A-Z0-9À-Ý][A-Za-z0-9À-ÿ]*(?: [A-Z0-9À-Ý][A-Za-z0-9À-ÿ]*)*$/
+const titleCaseTagPattern =
+  /^(?:[A-Z0-9À-Ý][A-Za-z0-9À-ÿ]*|[A-Z0-9À-Ý]{2,})(?: (?:[A-Z0-9À-Ý][A-Za-z0-9À-ÿ]*|[A-Z0-9À-Ý]{2,}))*$/
 
 function normalizeWhitespace(value: string) {
   return value.trim().replace(/\s+/g, ' ')
@@ -82,7 +83,13 @@ function normalizeTag(value: string) {
   return normalizeWhitespace(value)
     .split(' ')
     .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .map((part) => {
+      if (/^[A-Z0-9À-Ý]{2,}$/.test(part)) {
+        return part
+      }
+
+      return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+    })
     .join(' ')
 }
 
@@ -120,10 +127,10 @@ const tagsSchema = z
   )
   .max(8, 'Você pode informar no máximo 8 tags.')
   .superRefine((tags, ctx) => {
-    const duplicates = new Set<string>()
+    const seenTags = new Set<string>()
 
     for (const tag of tags) {
-      if (duplicates.has(tag)) {
+      if (seenTags.has(tag)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: `A tag "${tag}" está duplicada.`,
@@ -131,7 +138,7 @@ const tagsSchema = z
         continue
       }
 
-      duplicates.add(tag)
+      seenTags.add(tag)
     }
   })
 

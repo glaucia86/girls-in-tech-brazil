@@ -38,7 +38,7 @@ export default async function CriadoraPage({
 
           return (
             <li key={contentType}>
-              <a href={url} target="_blank" rel="noreferrer">
+              <a href={url} target="_blank" rel="noopener noreferrer">
                 {contentType}
               </a>
             </li>

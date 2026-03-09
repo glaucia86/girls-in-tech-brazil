@@ -9,6 +9,7 @@ import {
 } from '@/schemas/creator.schema'
 
 const creatorsDirectory = path.join(process.cwd(), 'src', 'data', 'creators')
+let creatorsPromise: Promise<Creator[]> | undefined
 
 function isPublicCreatorFile(fileName: string) {
   return fileName.endsWith('.json') && !fileName.startsWith('_')
@@ -28,12 +29,20 @@ async function readCreatorFromFile(fileName: string): Promise<Creator> {
   return withDerivedFields(creatorFileSchema.parse(parsedContent))
 }
 
-export async function getAllCreators(): Promise<Creator[]> {
+async function loadAllCreators(): Promise<Creator[]> {
   const files = await readdir(creatorsDirectory)
   const creatorFiles = files.filter(isPublicCreatorFile)
   const creators = await Promise.all(creatorFiles.map(readCreatorFromFile))
 
   return creators.sort((left, right) => left.name.localeCompare(right.name, 'pt-BR'))
+}
+
+export async function getAllCreators(): Promise<Creator[]> {
+  if (!creatorsPromise) {
+    creatorsPromise = loadAllCreators()
+  }
+
+  return creatorsPromise
 }
 
 export async function getCreatorBySlug(slug: string): Promise<Creator | undefined> {

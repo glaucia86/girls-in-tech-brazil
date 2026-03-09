@@ -2,7 +2,7 @@
 
 Este arquivo preserva a lista histórica original da comunidade usada como base de migração para `src/data/creators/`.
 
-Novas contribuições devem seguir o fluxo documentado em [CONTRIBUTING.md](C:\Users\glauc\OneDrive\Documents\Labs\girls-in-tech-brazil\CONTRIBUTING.md) e adicionar ou atualizar perfis JSON individuais.
+Novas contribuições devem seguir o fluxo documentado em [CONTRIBUTING.md](./CONTRIBUTING.md) e adicionar ou atualizar perfis JSON individuais.
 
 ---
 
