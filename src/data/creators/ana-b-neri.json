@@ -1,0 +1,13 @@
+{
+  "slug": "ana-b-neri",
+  "name": "Ana B Neri",
+  "headline": "Backend, JavaScript e carreira internacional na prática",
+  "bio": "Ana B Neri compartilha experiências em empresas internacionais e publica conteúdos técnicos sobre JavaScript, Node.js e backend por meio de projetos práticos e rotina profissional.",
+  "categories": ["Backend", "Career"],
+  "tags": ["JavaScript", "Backend"],
+  "links": {
+    "youtube": "https://www.youtube.com/@AnaNeriDev",
+    "instagram": "https://www.instagram.com/ananeridev"
+  },
+  "featured": false
+}

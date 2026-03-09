@@ -1,0 +1,13 @@
+{
+  "slug": "gi-bordignon",
+  "name": "Gi Bordignon",
+  "headline": "Backend com dicas práticas e rotina real de programação",
+  "bio": "Gi Bordignon compartilha dicas, aprendizados e experiências do dia a dia como programadora backend, aproximando conceitos técnicos da prática de quem trabalha construindo software.",
+  "categories": ["Backend", "Education"],
+  "tags": ["Backend", "Programação"],
+  "links": {
+    "youtube": "https://www.youtube.com/@spacecodingg",
+    "instagram": "https://www.instagram.com/spacecoding"
+  },
+  "featured": false
+}

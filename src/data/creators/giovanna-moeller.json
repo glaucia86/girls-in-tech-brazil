@@ -1,0 +1,13 @@
+{
+  "slug": "giovanna-moeller",
+  "name": "Giovanna Moeller",
+  "headline": "Tutoriais de programação e ciência da computação aplicada",
+  "bio": "Giovanna Moeller compartilha insights sobre tecnologia, tutoriais de programação e conteúdos relacionados à ciência da computação, aproximando teoria e prática para a comunidade.",
+  "categories": ["Backend", "Education"],
+  "tags": ["Tecnologia", "Programação"],
+  "links": {
+    "youtube": "https://youtube.com/@giovanna.moeller",
+    "instagram": "https://www.instagram.com/giovanna.moeller"
+  },
+  "featured": false
+}
