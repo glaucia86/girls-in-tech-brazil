@@ -1,0 +1,49 @@
+import { readdir, readFile } from 'node:fs/promises'
+import path from 'node:path'
+import {
+  type ContentType,
+  type Creator,
+  type CreatorFile,
+  creatorFileSchema,
+  deriveContentTypes,
+} from '@/schemas/creator.schema'
+
+const creatorsDirectory = path.join(process.cwd(), 'src', 'data', 'creators')
+
+function isPublicCreatorFile(fileName: string) {
+  return fileName.endsWith('.json') && !fileName.startsWith('_')
+}
+
+function withDerivedFields(creator: CreatorFile): Creator {
+  return {
+    ...creator,
+    contentTypes: deriveContentTypes(creator.links),
+  }
+}
+
+async function readCreatorFromFile(fileName: string): Promise<Creator> {
+  const filePath = path.join(creatorsDirectory, fileName)
+  const fileContent = await readFile(filePath, 'utf8')
+  const parsedContent = JSON.parse(fileContent) as unknown
+  return withDerivedFields(creatorFileSchema.parse(parsedContent))
+}
+
+export async function getAllCreators(): Promise<Creator[]> {
+  const files = await readdir(creatorsDirectory)
+  const creatorFiles = files.filter(isPublicCreatorFile)
+  const creators = await Promise.all(creatorFiles.map(readCreatorFromFile))
+
+  return creators.sort((left, right) => left.name.localeCompare(right.name, 'pt-BR'))
+}
+
+export async function getCreatorBySlug(slug: string): Promise<Creator | undefined> {
+  const creators = await getAllCreators()
+  return creators.find((creator) => creator.slug === slug)
+}
+
+export async function getCreatorSlugs(): Promise<string[]> {
+  const creators = await getAllCreators()
+  return creators.map((creator) => creator.slug)
+}
+
+export type { ContentType }

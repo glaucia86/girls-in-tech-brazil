@@ -1,0 +1,13 @@
+{
+  "slug": "loiane-groner",
+  "name": "Loiane Groner",
+  "headline": "Educação tech com Java, Angular e cloud em profundidade",
+  "bio": "Loiane Groner é referência em educação em tecnologia e compartilha conteúdos sobre Angular, Java, Spring, cloud e desenvolvimento moderno com abordagem clara e didática.",
+  "categories": ["Education", "Cloud"],
+  "tags": ["Java", "Angular"],
+  "links": {
+    "youtube": "https://www.youtube.com/@loianegroner",
+    "instagram": "https://www.instagram.com/loianegroner"
+  },
+  "featured": true
+}

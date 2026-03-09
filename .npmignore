@@ -6,3 +6,7 @@ build/
 coverage/
 specs/
 docs-spec/
+.specify/
+.codex/
+*.log
+.env*

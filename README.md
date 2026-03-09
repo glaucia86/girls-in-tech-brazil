@@ -1,10 +1,10 @@
 # Girls in Tech Brazil Web Platform
 
-Plataforma web estatica para destacar criadoras e referencias femininas na tecnologia brasileira.
+Plataforma web estática para destacar criadoras e referências femininas na tecnologia brasileira.
 
 ## Estado atual
 
-Este repositorio esta na fase fundacional (Epic E1). O foco atual e setup tecnico, rotas placeholder e qualidade base para evolucao dos proximos epicos.
+Este repositório está evoluindo a camada de dados das criadoras. O foco atual é manter um dataset validado, documentação de contribuição e consumo tipado para os próximos épicos visuais.
 
 ## Pre-requisitos
 
@@ -26,7 +26,7 @@ Aplicacao local: `http://localhost:3000`
 - `/sobre`
 - `/contribuir`
 - `/criadoras`
-- `/criadoras/exemplo`
+- `/criadoras/[slug]`
 
 ## Scripts disponiveis
 
@@ -34,6 +34,7 @@ Aplicacao local: `http://localhost:3000`
 - `npm run build`: gera build estatico
 - `npm run start`: inicia app em modo producao
 - `npm run lint`: executa lint
+- `npm run validate`: valida os perfis em `src/data/creators/`
 - `npm run type-check`: executa tipagem sem emitir arquivos
 - `npm run format`: formata arquivos
 - `npm run format:check`: valida formatacao
@@ -53,13 +54,14 @@ public/
 
 ## Legado da comunidade
 
-O conteudo historico original do repositorio foi preservado em `README-legacy.md`.
+O conteúdo histórico original do repositório foi preservado em `README-legacy.md`.
 
 ## Contribuicao
 
-Fluxo de contribuicao via Pull Request. Antes de abrir PR, execute:
+Fluxo de contribuição via Pull Request. Antes de abrir PR, execute:
 
 ```bash
+npm run validate
 npm run lint
 npm run type-check
 npm run build
