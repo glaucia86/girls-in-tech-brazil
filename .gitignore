@@ -18,3 +18,4 @@ Thumbs.db
 .idea/
 coverage/
 *.tsbuildinfo
+node_modules
