@@ -63,16 +63,17 @@ export default async function CriadoraPage({ params }: { params: Promise<{ slug:
         aria-hidden="true"
       />
 
-      <section className="panel grid gap-8 p-6 sm:p-8 lg:grid-cols-[auto_1fr]">
+      <section className="panel grid gap-8 p-6 sm:p-8 lg:grid-cols-[auto_1fr] lg:items-start">
         <Avatar
           name={detail.name}
           imageUrl={detail.avatarUrl}
           fallback={detail.avatarFallback}
-          size="lg"
+          size="xl"
+          shape="circle"
+          className="mx-auto border-2 border-[var(--color-brand-300)] shadow-[0_18px_44px_rgba(109,40,217,0.2)] lg:mx-0"
         />
-        <div className="space-y-5">
-          <div className="flex flex-wrap gap-2">
-            {detail.featured ? <Badge variant="featured">✨ Destaque editorial</Badge> : null}
+        <div className="space-y-5 text-center lg:text-left">
+          <div className="flex flex-wrap justify-center gap-2 lg:justify-start">
             {detail.categories.map((category) => (
               <Badge key={category}>{category}</Badge>
             ))}
@@ -83,7 +84,7 @@ export default async function CriadoraPage({ params }: { params: Promise<{ slug:
           </div>
           <p className="max-w-3xl leading-8 text-[var(--color-text-base)]">{detail.bio}</p>
           {detail.tags.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap justify-center gap-2 lg:justify-start">
               {detail.tags.map((tag) => (
                 <Badge key={tag} variant="outline">
                   {tag}

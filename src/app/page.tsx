@@ -6,10 +6,7 @@ import { SpotlightGrid } from '@/components/spotlight-grid'
 
 export default async function HomePage() {
   const creators = await getAllCreators()
-  const featuredCreators = creators.filter((creator) => creator.featured)
-  const spotlight = (featuredCreators.length > 0 ? featuredCreators : creators.slice(0, 3)).map(
-    toCreatorSummary,
-  )
+  const spotlightPool = creators.map(toCreatorSummary)
 
   return (
     <div className="page-shell">
@@ -46,12 +43,15 @@ export default async function HomePage() {
       <SectionReveal className="section-gap pt-0">
         <div className="mb-8 space-y-3">
           <p className="eyebrow">Quem está por aqui</p>
-          <h2 className="text-3xl font-black tracking-tight">Referências para inspirar e aprender</h2>
+          <h2 className="text-3xl font-black tracking-tight">
+            Referências para inspirar e aprender
+          </h2>
           <p className="max-w-2xl leading-7 text-[var(--color-text-muted)]">
-            Perfis de mulheres que produzem conteúdo incrível sobre tecnologia — da programação ao design, da IA à carreira tech.
+            Perfis de mulheres que produzem conteúdo incrível sobre tecnologia — da programação ao
+            design, da IA à carreira tech.
           </p>
         </div>
-        <SpotlightGrid creators={spotlight} />
+        <SpotlightGrid creators={spotlightPool} />
       </SectionReveal>
 
       <CtaBanner
