@@ -1,6 +1,8 @@
+import Link from 'next/link'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getCreatorBySlug, getCreatorSlugs } from '@/lib/creators'
-import { Avatar, Badge } from '@/components'
+import { getAllCreators, getCreatorBySlug, getCreatorSlugs } from '@/lib/creators'
+import { Avatar, Badge, RelatedCreators, ShareButton } from '@/components'
 import { CONTENT_TYPE_META } from '@/lib/content-types'
 import { toCreatorDetail } from '@/lib/discovery'
 
@@ -9,13 +11,32 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }))
 }
 
-export default async function CriadoraPage({
+export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>
-}) {
+}): Promise<Metadata> {
   const { slug } = await params
   const creator = await getCreatorBySlug(slug)
+
+  if (!creator) {
+    return { title: { absolute: 'Criadora não encontrada' } }
+  }
+
+  return {
+    title: { absolute: `${creator.name} · Girls in Tech Brazil` },
+    description: creator.bio.slice(0, 155),
+    openGraph: {
+      title: `${creator.name} — Girls in Tech Brazil`,
+      description: creator.headline,
+      images: ['/images/og-default.png'],
+    },
+  }
+}
+
+export default async function CriadoraPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const [creator, creators] = await Promise.all([getCreatorBySlug(slug), getAllCreators()])
 
   if (!creator) {
     notFound()
@@ -25,6 +46,16 @@ export default async function CriadoraPage({
 
   return (
     <div className="page-shell section-gap space-y-8">
+      <section className="flex flex-wrap items-center justify-between gap-3">
+        <Link
+          href="/criadoras/"
+          className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border-soft)] bg-white px-4 py-2 text-sm font-semibold shadow-[var(--shadow-soft)] transition-colors hover:border-[var(--color-brand-300)]"
+        >
+          ← Criadoras
+        </Link>
+        <ShareButton creatorName={detail.name} />
+      </section>
+
       {/* Gradient strip at top */}
       <div
         className="-mx-4 h-2 rounded-full sm:-mx-0"
@@ -103,6 +134,12 @@ export default async function CriadoraPage({
           )
         })}
       </section>
+
+      <RelatedCreators
+        currentSlug={detail.slug}
+        categories={detail.categories}
+        creators={creators}
+      />
     </div>
   )
 }

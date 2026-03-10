@@ -72,6 +72,7 @@ const regionSchema = z.enum(BRAZILIAN_UFS)
 const linkKeySchema = z.enum(LINK_KEYS)
 
 const kebabCasePattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/
 const titleCaseTagPattern =
   /^(?:[A-Z0-9À-Ý][A-Za-z0-9À-ÿ]*|[A-Z0-9À-Ý]{2,})(?: (?:[A-Z0-9À-Ý][A-Za-z0-9À-ÿ]*|[A-Z0-9À-Ý]{2,}))*$/
 
@@ -94,10 +95,7 @@ function normalizeTag(value: string) {
 }
 
 const withNormalizedString = <T extends z.ZodType<string>>(schema: T) =>
-  z.preprocess(
-    (value) => (typeof value === 'string' ? normalizeWhitespace(value) : value),
-    schema,
-  )
+  z.preprocess((value) => (typeof value === 'string' ? normalizeWhitespace(value) : value), schema)
 const publicUrlSchema = withNormalizedString(
   z
     .string()
@@ -108,9 +106,10 @@ const localAvatarPattern = /^\/images\/creators\/[a-z0-9-]+\.(?:jpg|jpeg|png|web
 
 const linksSchema = z
   .object(
-    Object.fromEntries(
-      LINK_KEYS.map((key) => [key, publicUrlSchema.optional()]),
-    ) as Record<ContentType, z.ZodOptional<typeof publicUrlSchema>>,
+    Object.fromEntries(LINK_KEYS.map((key) => [key, publicUrlSchema.optional()])) as Record<
+      ContentType,
+      z.ZodOptional<typeof publicUrlSchema>
+    >,
   )
   .refine(
     (links) => Object.values(links).some((value) => typeof value === 'string' && value.length > 0),
@@ -168,9 +167,7 @@ export const creatorFileSchema = z.object({
       .max(500, 'A bio deve ter no máximo 500 caracteres.'),
   ),
   region: regionSchema.optional(),
-  categories: z
-    .array(categorySchema)
-    .min(1, 'Informe pelo menos uma categoria para a criadora.'),
+  categories: z.array(categorySchema).min(1, 'Informe pelo menos uma categoria para a criadora.'),
   tags: tagsSchema.optional(),
   links: linksSchema,
   avatar: withNormalizedString(z.string())
@@ -179,6 +176,12 @@ export const creatorFileSchema = z.object({
       'O avatar deve ser uma URL HTTPS ou um caminho local em /images/creators/.',
     )
     .optional(),
+  createdAt: withNormalizedString(
+    z
+      .string()
+      .regex(isoDatePattern, 'createdAt deve usar o formato YYYY-MM-DD.')
+      .refine((value) => Number.isFinite(Date.parse(value)), 'createdAt deve ser uma data válida.'),
+  ),
   featured: z.boolean().default(false),
 })
 

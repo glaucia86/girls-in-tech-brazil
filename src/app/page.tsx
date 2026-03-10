@@ -15,15 +15,15 @@ export default async function HomePage() {
     <div className="page-shell">
       <Hero
         eyebrow="Amplificando vozes femininas na tecnologia"
-        title="Descubra quem está construindo o futuro tech no Brasil"
-        description="Um repositório colaborativo de criadoras de conteúdo brasileiras em tecnologia. Encontre referências em programação, IA, dados, design, carreira e desenvolvimento de software."
+        title="Descubra quem são as mulheres que estão construindo o futuro tech no Brasil"
+        description="Um site colaborativo de criadoras de conteúdos brasileiras em tecnologia. Encontre referências em programação, IA, dados, design, carreira e desenvolvimento de software."
         primaryAction={{ label: 'Explorar criadoras', href: '/criadoras/' }}
         secondaryAction={{ label: 'Como contribuir', href: '/contribuir/' }}
       />
 
       <StatsBanner
         title="Mais visibilidade para quem compartilha conhecimento"
-        description="Este projeto amplifica a voz de mulheres no mundo tech, ajudando estudantes, profissionais e curiosos a encontrarem referências e aprenderem com quem está construindo conteúdo de qualidade."
+        description="Este projeto amplifica a voz de mulheres no mundo tech, ajudando estudantes, profissionais e curiosos a encontrarem referências e aprenderem com quem está criando conteúdos de qualidade."
         metrics={[
           {
             label: 'Criadoras listadas',
@@ -55,7 +55,7 @@ export default async function HomePage() {
       </SectionReveal>
 
       <CtaBanner
-        title="Conhece uma criadora que deveria estar aqui?"
+        title="Conhece alguma mulher referência tech que deveria estar aqui?"
         description="Este projeto cresce pela comunidade. Se você conhece uma mulher que compartilha conhecimento tech no Brasil e ainda não está no catálogo, abra um PR e ajude a ampliar o mapa."
         actionLabel="Ver guia de contribuição"
         actionHref="/contribuir/"
