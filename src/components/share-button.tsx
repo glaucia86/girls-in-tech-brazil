@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState } from 'react'
 
 type ShareButtonProps = {
   creatorName: string
@@ -8,11 +8,13 @@ type ShareButtonProps = {
 
 export function ShareButton({ creatorName }: ShareButtonProps) {
   const [feedback, setFeedback] = useState<string | null>(null)
-  const [isPending, startTransition] = useTransition()
+  const [isSharing, setIsSharing] = useState(false)
 
   async function handleShare() {
     const shareUrl = window.location.href
     const shareTitle = `${creatorName} · Girls in Tech Brazil`
+
+    setIsSharing(true)
 
     try {
       if (typeof navigator.share === 'function') {
@@ -28,6 +30,8 @@ export function ShareButton({ creatorName }: ShareButtonProps) {
       setFeedback('Link copiado para a área de transferência.')
     } catch {
       setFeedback('Não foi possível compartilhar agora.')
+    } finally {
+      setIsSharing(false)
     }
   }
 
@@ -35,15 +39,14 @@ export function ShareButton({ creatorName }: ShareButtonProps) {
     <div className="flex items-center gap-3">
       <button
         type="button"
-        onClick={() =>
-          startTransition(() => {
-            void handleShare()
-          })
-        }
+        onClick={() => {
+          void handleShare()
+        }}
+        disabled={isSharing}
         aria-label={`Compartilhar perfil de ${creatorName}`}
-        className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border-soft)] bg-white px-4 py-2 text-sm font-semibold shadow-[var(--shadow-soft)] transition-colors hover:border-[var(--color-brand-300)]"
+        className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border-soft)] bg-white px-4 py-2 text-sm font-semibold shadow-[var(--shadow-soft)] transition-colors hover:border-[var(--color-brand-300)] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isPending ? 'Compartilhando...' : 'Compartilhar'}
+        {isSharing ? 'Compartilhando...' : 'Compartilhar'}
       </button>
       {feedback ? <p className="text-sm text-[var(--color-text-muted)]">{feedback}</p> : null}
     </div>

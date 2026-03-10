@@ -80,7 +80,17 @@ function sortCreatorsByEditorialPriority(creators: Creator[]) {
 
     const rightDate = Date.parse(right.createdAt)
     const leftDate = Date.parse(left.createdAt)
-    return rightDate - leftDate
+    const dateScore = rightDate - leftDate
+    if (dateScore !== 0) {
+      return dateScore
+    }
+
+    const nameScore = left.name.localeCompare(right.name, 'pt-BR')
+    if (nameScore !== 0) {
+      return nameScore
+    }
+
+    return left.slug.localeCompare(right.slug, 'pt-BR')
   })
 }
 

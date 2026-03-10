@@ -31,7 +31,7 @@ async function readCreatorFromFile(fileName: string): Promise<Creator> {
 
 async function loadAllCreators(): Promise<Creator[]> {
   const files = await readdir(creatorsDirectory)
-  const creatorFiles = files.filter(isPublicCreatorFile)
+  const creatorFiles = files.filter(isPublicCreatorFile).sort((left, right) => left.localeCompare(right))
   return Promise.all(creatorFiles.map(readCreatorFromFile))
 }
 

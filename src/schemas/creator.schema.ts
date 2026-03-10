@@ -94,6 +94,29 @@ function normalizeTag(value: string) {
     .join(' ')
 }
 
+function isStrictIsoDate(value: string) {
+  const match = isoDatePattern.exec(value)
+  if (!match) {
+    return false
+  }
+
+  const [year, month, day] = value.split('-').map((part) => Number(part))
+  if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) {
+    return false
+  }
+
+  if (month < 1 || month > 12 || day < 1) {
+    return false
+  }
+
+  const utcDate = new Date(Date.UTC(year, month - 1, day))
+  return (
+    utcDate.getUTCFullYear() === year &&
+    utcDate.getUTCMonth() === month - 1 &&
+    utcDate.getUTCDate() === day
+  )
+}
+
 const withNormalizedString = <T extends z.ZodType<string>>(schema: T) =>
   z.preprocess((value) => (typeof value === 'string' ? normalizeWhitespace(value) : value), schema)
 const publicUrlSchema = withNormalizedString(
@@ -180,7 +203,7 @@ export const creatorFileSchema = z.object({
     z
       .string()
       .regex(isoDatePattern, 'createdAt deve usar o formato YYYY-MM-DD.')
-      .refine((value) => Number.isFinite(Date.parse(value)), 'createdAt deve ser uma data válida.'),
+      .refine(isStrictIsoDate, 'createdAt deve ser uma data válida.'),
   ),
   featured: z.boolean().default(false),
 })
